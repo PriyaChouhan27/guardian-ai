@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey History - Guardian AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-entry-active">
+    <canvas id="constellation-canvas"></canvas>
+    
+    <div class="glow-orb glow-top-left"></div>
+    <div class="glow-orb glow-bottom-right"></div>
+
+    <main class="dashboard-wrapper">
+        <div class="dashboard-card animate-fade-in" style="max-width: 900px; width: 100%;">
+            <header class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <div class="dashboard-brand">
+                    <div class="dashboard-title-group">
+                        <h1 class="dashboard-title" style="font-size: 1.75rem;">Journey History</h1>
+                        <p class="dashboard-subtitle">Stored local record of monitored network journeys.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.75rem;">
+                    <button type="button" class="btn-secondary" id="btn-clear-history" style="padding: 0.5rem 1.25rem; font-size: 0.85rem; border-color: rgba(239, 68, 68, 0.3); color: #f87171;">
+                        <span>Clear History</span>
+                    </button>
+                    <button type="button" class="btn-secondary" id="btn-history-back" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">
+                        <span>Back to Dashboard</span>
+                    </button>
+                </div>
+            </header>
+
+            <div id="history-cards-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; min-height: 200px;">
+                </div>
+        </div>
+    </main>
+
+    <footer class="splash-footer animate-fade-in-delayed-4">
+        <p>&copy; 2026 Guardian AI Technologies. All travel networks secured.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('history-cards-container');
+            const backBtn = document.getElementById('btn-history-back');
+            const clearBtn = document.getElementById('btn-clear-history');
+
+            function renderHistoryCards() {
+                const records = JSON.parse(localStorage.getItem('guardian_travel_history')) || [];
+
+                if (records.length === 0) {
+                    container.style.display = 'flex';
+                    container.style.alignItems = 'center';
+                    container.style.justifyContent = 'center';
+                    container.innerHTML = `
+                        <div style="text-align: center; color: #94a3b8; padding: 3rem 0; width: 100%;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.4;">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <p class="summary-meta" style="font-size: 1.1rem; text-align: center;">No journeys yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.style.display = 'grid';
+                container.innerHTML = records.map(item => {
+                    const isSafe = item.status === 'Safe';
+                    const statusText = isSafe ? '🟢 Safe' : '🔴 Emergency';
+
+                    return `
+                        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; backdrop-filter: blur(10px);">
+                            <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 0.5rem; margin-bottom: 0.25rem;">
+                                    <span style="font-size: 0.85rem; font-weight: 600; color: #ffffff;">Date</span>
+                                    <span style="font-size: 0.85rem; color: #94a3b8;">${item.date}</span>
+                                </div>
+                                <div style="font-size: 0.85rem; color: #e2e8f0;"><strong style="color: #94a3b8; font-weight: 500;">Route:</strong> ${item.startLocation} → ${item.destination}</div>
+                                <div style="font-size: 0.85rem; color: #e2e8f0;"><strong style="color: #94a3b8; font-weight: 500;">Transport:</strong> ${item.transportMode}</div>
+                                <div style="font-size: 0.85rem; color: #e2e8f0;"><strong style="color: #94a3b8; font-weight: 500;">Departure:</strong> ${item.departureTime}</div>
+                                <div style="font-size: 0.85rem; color: #e2e8f0;"><strong style="color: #94a3b8; font-weight: 500;">Estimated Arrival:</strong> ${item.estimatedArrivalTime}</div>
+                                <div style="font-size: 0.85rem; color: #e2e8f0;"><strong style="color: #94a3b8; font-weight: 500;">Status:</strong> ${statusText}</div>
+                                <div style="font-size: 0.85rem; color: #e2e8f0; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 0.5rem; margin-top: 0.25rem;"><strong style="color: #94a3b8; font-weight: 500;">AI Action:</strong> ${item.aiAction}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Event action listeners integration hooks
+            if (typeof bindRippleEffect === 'function') {
+                bindRippleEffect(backBtn, () => { window.location.href = 'dashboard.html'; });
+                bindRippleEffect(clearBtn, () => {
+                    localStorage.removeItem('guardian_travel_history');
+                    renderHistoryCards();
+                });
+            } else {
+                backBtn?.addEventListener('click', () => { window.location.href = 'dashboard.html'; });
+                clearBtn?.addEventListener('click', () => {
+                    localStorage.removeItem('guardian_travel_history');
+                    renderHistoryCards();
+                });
+            }
+
+            // Execute base render trigger loop on initial canvas payload entry
+            renderHistoryCards();
+        });
+    </script>
+</body>
+</html>

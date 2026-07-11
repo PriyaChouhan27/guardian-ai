@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian AI - Travel Smarter. Travel Safer.</title>
+    <meta name="description" content="Guardian AI: The premium intelligent companion for safe and smart travels.">
+    <!-- Google Fonts: Plus Jakarta Sans for clean modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Interactive Background Canvas -->
+    <canvas id="constellation-canvas"></canvas>
+    
+    <!-- Light glowing atmospheric effects -->
+    <div class="glow-orb glow-top-left"></div>
+    <div class="glow-orb glow-bottom-right"></div>
+
+    <main class="splash-wrapper">
+        <div class="splash-content">
+            <!-- Logo Section -->
+            <div class="logo-container animate-fade-in" id="logo-sec">
+                <svg class="shield-logo" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer glowing ring / scanning indicator -->
+                    <circle cx="60" cy="60" r="54" class="logo-outer-circle" stroke="url(#ringGradient)" stroke-width="1.5" stroke-dasharray="8 8" />
+                    
+                    <!-- Outer Shield Path -->
+                    <path class="logo-shield-outer" d="M 60 16 L 98 28 V 65 C 98 88 60 104 60 104 C 60 104 22 88 22 65 V 28 Z" stroke="url(#shieldGradient)" stroke-width="3" stroke-linejoin="round"/>
+                    
+                    <!-- Inner Tech-Mesh Shield -->
+                    <path class="logo-shield-inner" d="M 60 28 L 86 37 V 65 C 86 81 60 93 60 93 C 60 93 34 81 34 65 V 37 Z" stroke="url(#innerShieldGradient)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                    
+                    <!-- Tech Grid Lines / Paths connecting to Core -->
+                    <line x1="60" y1="28" x2="60" y2="48" class="logo-connector-line" stroke="#38bdf8" stroke-width="1.5" />
+                    <line x1="34" y1="65" x2="50" y2="60" class="logo-connector-line" stroke="#38bdf8" stroke-width="1.5" />
+                    <line x1="86" y1="65" x2="70" y2="60" class="logo-connector-line" stroke="#38bdf8" stroke-width="1.5" />
+                    
+                    <!-- Core Glowing Node -->
+                    <circle cx="60" cy="60" r="8" class="logo-core" fill="url(#coreGradient)" />
+                    <circle cx="60" cy="60" r="14" class="logo-core-pulse" stroke="#38bdf8" stroke-width="1" />
+
+                    <!-- Gradients -->
+                    <defs>
+                        <linearGradient id="shieldGradient" x1="22" y1="16" x2="98" y2="104" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#3b82f6" />
+                            <stop offset="50%" stop-color="#60a5fa" />
+                            <stop offset="100%" stop-color="#1d4ed8" />
+                        </linearGradient>
+                        <linearGradient id="innerShieldGradient" x1="34" y1="28" x2="86" y2="93" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+                            <stop offset="100%" stop-color="#0369a1" stop-opacity="0.3"/>
+                        </linearGradient>
+                        <linearGradient id="ringGradient" x1="6" y1="6" x2="114" y2="114" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="100%" stop-color="#1e3a8a" />
+                        </linearGradient>
+                        <linearGradient id="coreGradient" x1="52" y1="52" x2="68" y2="68" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#60a5fa" />
+                            <stop offset="100%" stop-color="#2563eb" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+
+            <!-- Title & Tagline -->
+            <div class="brand-container">
+                <h1 class="brand-name animate-fade-in-delayed-1" id="app-title">Guardian AI</h1>
+                <p class="brand-tagline animate-fade-in-delayed-2" id="app-tagline">Travel Smarter. Travel Safer.</p>
+            </div>
+            
+            <!-- Features highlights in a very subtle minimal presentation -->
+            <div class="features-preview animate-fade-in-delayed-3" id="features-preview">
+                <span class="feature-tag"><span class="tag-dot"></span> Smart Routing</span>
+                <span class="feature-divider"></span>
+                <span class="feature-tag"><span class="tag-dot"></span> Real-time Safety</span>
+                <span class="feature-divider"></span>
+                <span class="feature-tag"><span class="tag-dot"></span> AI Assistance</span>
+            </div>
+
+            <!-- Get Started CTA Button -->
+            <div class="cta-container animate-fade-in-delayed-4" id="cta-sec">
+                <button class="btn-primary" id="btn-get-started">
+                    <span class="btn-text">Get Started</span>
+                    <span class="btn-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Footer (Minimalist & Premium Brand Signature) -->
+    <footer class="splash-footer animate-fade-in-delayed-4">
+        <p>&copy; 2026 Guardian AI Technologies. All travel networks secured.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
