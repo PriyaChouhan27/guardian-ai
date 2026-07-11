@@ -119,9 +119,29 @@ function initJourneyMonitoringPipeline() {
         }, 2500);
 
         // Step 3: Complete Simulation & Display Dashboard Return Controller (3.5 - 4 seconds)
-        setTimeout(() => {
-            window.location.href = "travel-history.html";
-        }, 4000);
+       setTimeout(() => {
+
+    const history = JSON.parse(localStorage.getItem("guardian_travel_history")) || [];
+
+    history.unshift({
+        date: new Date().toLocaleString(),
+        startLocation: "Current Location",
+        destination: "Destination",
+        transportMode: "Bus",
+        departureTime: "09:00 AM",
+        estimatedArrivalTime: "09:30 AM",
+        status: "Emergency",
+        aiAction: "Emergency alert sent to trusted contacts."
+    });
+
+    localStorage.setItem(
+        "guardian_travel_history",
+        JSON.stringify(history)
+    );
+
+    window.location.href = "travel-history.html";
+
+}, 4000);
     }
 
     /**

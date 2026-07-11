@@ -442,20 +442,42 @@ function initDashboardLogicPipeline() {
         elem.addEventListener('change', updateValidationSummary);
     });
 
-    bindRippleEffect(startJourneyBtn, () => {
-        const selectedContactsObjects = selectedContactIds.map(id => contactsArray[id]);
-        const activeRoutePayload = {
-            origin: originInput.value.trim(),
-            destination: destInput.value.trim(),
-            mode: transportInput.value,
-            depTime: computedDepTime,
-            etaTime: computedEtaTime,
-            activeSafeguards: selectedContactsObjects
-        };
+   bindRippleEffect(startJourneyBtn, () => {
 
-        localStorage.setItem('guardian_active_route', JSON.stringify(activeRoutePayload));
-        transitionToPage('journey.html');
+    const selectedContactsObjects = selectedContactIds.map(id => contactsArray[id]);
+
+    const activeRoutePayload = {
+        origin: originInput.value.trim(),
+        destination: destInput.value.trim(),
+        mode: transportInput.value,
+        depTime: computedDepTime,
+        etaTime: computedEtaTime,
+        activeSafeguards: selectedContactsObjects
+    };
+
+    localStorage.setItem('guardian_active_route', JSON.stringify(activeRoutePayload));
+
+    // SAVE JOURNEY HISTORY
+    let history = JSON.parse(localStorage.getItem('guardian_travel_history')) || [];
+
+    history.unshift({
+        date: new Date().toLocaleDateString(),
+        startLocation: originInput.value.trim(),
+        destination: destInput.value.trim(),
+        transportMode: transportInput.value,
+        departureTime: computedDepTime,
+        estimatedArrivalTime: computedEtaTime,
+        status: "Safe",
+        aiAction: "Journey Started Successfully"
     });
+
+    localStorage.setItem(
+        'guardian_travel_history',
+        JSON.stringify(history)
+    );
+
+    transitionToPage('journey.html');
+});
 
     renderContactCards();
 }
